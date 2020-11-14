@@ -99,7 +99,9 @@ def obtenerBD2():
             if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                 baseN = baseN - 1 #si, busca de la ultima a la primera :P
                 bds.append(nombreBD)
+                print("")
                 print("[INFO] Bases de datos encontradas: "+str(bds))
+                print("")
                 nombreBD = ""
                 letra = 1
                 break
@@ -176,7 +178,9 @@ def obtenerTablas(database):
 
         # print(nombreTabla)
         tablas.append(nombreTabla)
+        print("")
         print('[INFO] Tablas encontradas:'+str(tablas))
+        print("")
     print('[INFO] TABLAS:'+str(tablas))
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -276,7 +280,9 @@ def obtenerDatos(tabla,database):
 
                 i=i+1
              datos.append(columna + ':' + nombreDato)
+             print("")
              print('[INFO] Datos encontrados:'+str(datos))
+             print("")
     print('[INFO] DUMPEO EXITOSO: '+str(datos))
 
 
